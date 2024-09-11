@@ -150,6 +150,8 @@ h6 {
     gap: var(--spacing-gutter-large);
 }
 
+
+
 .recipe {
     background: var(--color-white);
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
