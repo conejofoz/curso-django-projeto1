@@ -1,3 +1,4 @@
+from django.urls import reverse
 from authors.forms import RegisterForm
 from django.test import TestCase
 from parameterized import parameterized
@@ -13,3 +14,13 @@ class AuthorRegisterFormUnitTest(TestCase):
         form = RegisterForm()
         current_placeholder = form[field].field.widget.attrs['placeholder']
         self.assertEqual(current_placeholder, placeholder)
+
+    """ def teste_email_field_must_be_unique(self):
+        url = reverse('authors:create')
+        
+        self.client.post(url, data=self.form_data, follow=True)
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'Esse email já existe'
+        self.assertIn(msg, response.content['form'].errors.get('email'))
+        self.assertIn(msg, response.content.decode('utf-8')) """
