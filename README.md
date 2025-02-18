@@ -93,3 +93,76 @@ Só assim já apareceria os campos na tela mais não é assim que famos vazer:
 ```python
 {{form}}
 ```
+
+
+
+#### Validação de campos
+##### Validação campo a campo
+
+Precisamos saber o nome do campo que queremos validar pois o Django concatena o nome do campo com
+o nome do metodo clean. Isso no caso de validação campo a campo.
+
+Temos duas maneiras de pegar os dados do campo:
+- self.data, pega os dados crus.
+- self.cleaned_data, pega os dados já tratados pelo Django.
+
+Ex:
+
+```Python
+def clean_password(self):
+    data = self.cleaned_data.get('password')
+
+    if 'senha' in data:
+        raise forms.ValidationError(
+            'Não digite %(value)s no campo password',
+            code='invalid',
+            params={'value': '"senha"'}
+        )
+    
+    return data
+```
+
+##### Validação vários campos
+
+```python
+def clean(self):
+    cleaned_data = super().clean()
+
+    password = cleaned_data.get('password')
+    password2 = cleaned_data.get('password2')
+
+    if password != password2:
+        raise ValidationError({
+            'password': 'As senhas devem ser iguais',
+            # Também é possível usar um ValidationError dentro de outro
+            'password2': ValidationError(
+                'As senhas devem ser iguais',
+                code='invalid'
+            )
+        })
+
+```
+
+Também é possível passar uma lista de validações:
+```python
+def clean(self):
+    cleaned_data = super().clean()
+
+    password = cleaned_data.get('password')
+    password2 = cleaned_data.get('password2')
+
+    if password != password2:
+        password_confirmation_error = ValidationError(
+                'As senhas devem ser iguais',
+                code='invalid'
+        )
+
+        raise ValidationError({
+            'password': password_confirmation_error,
+            'password2': [
+                password_confirmation_error,
+                'outroerro'
+            ] 
+            
+        })
+```
