@@ -83,11 +83,11 @@ class RegisterForm(forms.ModelForm):
 
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'placeholder': 'Digite seu usuário',
+                # 'placeholder': 'Digite seu usuário',
                 'class': 'alguma-classe-css'
             }),
             'password': forms.PasswordInput(attrs={
-                'placeholder': 'Digite sua senha'
+                # 'placeholder': 'Digite sua senha'
             })
         }
 
