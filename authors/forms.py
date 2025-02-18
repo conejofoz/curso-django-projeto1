@@ -2,7 +2,25 @@ from django import forms
 from django.contrib.auth.models import User
 
 
+def add_attr(field, attr_name, attr_new_val):
+    existing = field.widget.attrs.get(attr_name, '') # concatena com o que já tem
+    field.widget.attrs[attr_name] = f'{existing} {attr_new_val}'.strip()
+
+
+def add_placeholder(field, placeholder_var):
+    #field.widget.attrs['placeholder'] = placeholder_var
+    add_attr(field, 'placeholder', placeholder_var)
+
+
 class RegisterForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        add_placeholder(self.fields['first_name'], 'Digite seu nome')
+        add_placeholder(self.fields['last_name'], 'Digite seu sobrenome')
+        add_attr(self.fields['username'], 'class', 'fundo-azul')
+        add_attr(self.fields['username'], 'class', 'letra-branca')
+
+
     # Criar campos extras no formulário
     password2 = forms.CharField(
         required=True,
@@ -14,7 +32,7 @@ class RegisterForm(forms.ModelForm):
     # Sobrescrever campos que estão em fields, colocar aqui também. Já com tudo aqui também
     # como widget, help_texts...
 
-    
+
     class Meta:
         model = User
         # fields = '__all__' # ativando modo preguiça

@@ -334,7 +334,7 @@ h6 {
 }
 
 .errorlist{
-    color: var(--color-error-dark);
+    color: red;
 }
 
 .form-content input{
@@ -355,6 +355,10 @@ h6 {
     border: none;
     background: var(--color-primary-dark);
     color: var(--color-white);
+}
+
+.fundo-azul{
+    background-color: blue !important;
 }
 
 @media (max-width: 600px){
