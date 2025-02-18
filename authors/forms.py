@@ -1,6 +1,8 @@
+import re
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+
 
 
 def add_attr(field, attr_name, attr_new_val):
@@ -13,6 +15,15 @@ def add_placeholder(field, placeholder_var):
     add_attr(field, 'placeholder', placeholder_var)
 
 
+def strong_password(password):
+    regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
+
+    if not regex.match(password):
+        raise ValidationError((
+            'A senha deve ter no mínimo uma letra maiúscula, '
+            'uma letra minúscula e um número. E nó mínimo 8 characteres.'
+        ))
+
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -22,14 +33,24 @@ class RegisterForm(forms.ModelForm):
         add_attr(self.fields['username'], 'class', 'letra-branca')
 
 
-    # Criar campos extras no formulário
+    # Criar campos extras no formulário ou sobrescrever os que já existem
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Digite sua senha'
+        }),
+        error_messages={
+            'required': 'A senha não pode ficar vazia'
+        },
+        validators=[strong_password]
+    )
+
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Confirme sua senha'
         })
     )
-
     # Sobrescrever campos que estão em fields, colocar aqui também. Já com tudo aqui também
     # como widget, help_texts...
 

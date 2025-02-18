@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import redirect, render
+from django.contrib import messages
 from .forms import RegisterForm
 
 
@@ -21,8 +22,9 @@ def register_create(request):
     # Gravar os dados do formulário na sessão do navegador
     request.session['register_form_data'] = POST
     form = RegisterForm(POST)
-    """ return render(request, 'authors/pages/register_view.html', {
-        'form': form,
-    }) """
 
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Seu usuário foi criado, por favor faça login.') # falta implementar no html
+        del(request.session['register_form_data'])
     return redirect('authors:register')
