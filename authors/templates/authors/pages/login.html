@@ -5,8 +5,18 @@
 {% block content %}
     <div class="main-content center container">
         <h2>Login</h2>
+
+        {% if request.user.is_authenticated %}
+            <p>
+                Você está logado
+                {{request.user.username}}
+                <a href="{% url "authors:logout" %}">Cliqui para fazer logout</a>
+            </p>
+        {% endif %}
+
+        
     </div>
 
     {% include "global/partials/form.html" %}
-    
+
 {% endblock content %}
