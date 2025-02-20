@@ -7,11 +7,16 @@
         <h2>Login</h2>
 
         {% if request.user.is_authenticated %}
-            <p>
+            <div>
                 Você está logado
                 {{request.user.username}}
-                <a href="{% url "authors:logout" %}">Cliqui para fazer logout</a>
-            </p>
+                <form class="inline-form" action="{% url "authors:logout" %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{request.user.username}}">
+                    <button class="plaintext-button" type="submit">Clique</button>
+                    para fazer logout
+                </form>
+            </div>
         {% endif %}
 
         
