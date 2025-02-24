@@ -40,8 +40,76 @@ urlpatterns = [
     path('authors/', include('authors.urls')) # <------
 ]
 ```
+---
+## Messages - flash messages
+
+- importação
+```python
+from django.contrib.messages import success, error, debug, warning, info
+# ou direto
+from django.contrib import messages
+```
+
+#### Enviando uma mensagem
+- Para enviar uma mensagem tem que enviar o request e a mensagem
+- Ela deve ser implementada em view do django.
+- A variável messages é enviada no contexto automaticamente pelo Django.
+
+```python
+messages.success(request, 'Sua mensagem!')
+
+```
 
 
+#### Exibindo no template
+
+- Deve ser feito um loop no template pois a variável messages é uma lista
+```python
+{% if messages %}
+    <div class="main-content center container">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+{% endif %}
+```
+
+#### Configurando as tags, css de cada tipo de mensagem
+
+settings.py
+```python
+from django.contrib.messages import constants
+
+
+MESSAGE_TAGS = {
+    constants.DEBUG: 'message-debug',
+    constants.ERROR: 'message-error',
+    constants.INFO: 'message-info',
+    constants.SUCCESS: 'message-success',
+    constants.WARNING: 'message-warning',
+}
+```
+Agora as classes CSS devem ser criadas com esses nomes.
+
+##### E como o Django sabe qual tag deve ser usada na mensagem no template html?
+Na tag class da div onde vai ser exibida a mensagem colocar: {{ message.tags }}
+Ficando assim:
+```python
+{% if messages %}
+    <div class="main-content center container">
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+```
+
+
+
+
+---
 ## Trabalhando com forms
 
 - Criar o arquivo forms.py

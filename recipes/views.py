@@ -1,7 +1,9 @@
 from django.shortcuts import get_list_or_404, get_object_or_404, render
 from django.http import Http404, HttpResponse
+from django.contrib import messages
 from utils.recipes.factory import make_recipe
 from recipes.models import Recipe
+
 
 
 def home(request):
@@ -9,6 +11,9 @@ def home(request):
     """ return render(request, 'recipes/pages/home.html', context={
         'recipes': [make_recipe() for _ in range(10)],
         }) """
+    
+    messages.success(request, 'Mensagem de sucesso!')
+    messages.error(request, 'Mensagem de erro!')
     recipes = Recipe.objects.filter(is_published=True).order_by('-id')
     return render(request, 'recipes/pages/home.html', context={'recipes': recipes})
 
