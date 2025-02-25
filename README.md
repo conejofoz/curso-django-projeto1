@@ -107,6 +107,17 @@ Ficando assim:
 ```
 
 
+---
+## Paginação com Django
+
+from django.core.paginator import Paginator
+
+Primeiro lugar ler a documentação, lá já tem um exemplo básico.
+
+### Paginação com function based view
+
+Criar uma instância da classe Paginator passando o queryset e a quantidade de páginas
+
 
 
 ---
