@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse
 from django.contrib import messages
 from django.core.paginator import Paginator
 from utils.recipes.factory import make_recipe
+from utils.pagination import make_pagination_range
 from recipes.models import Recipe
 
 
@@ -17,10 +18,24 @@ def home(request):
     messages.error(request, 'Mensagem de erro!')
     recipes = Recipe.objects.filter(is_published=True).order_by('-id')
 
-    current_page = request.GET.get('page', 1)
+    try:
+        current_page = int(request.GET.get('page', 1))
+    except ValueError:
+        current_page = 1
+
     paginator = Paginator(recipes, 6)
     page_obj = paginator.get_page(current_page)
-    return render(request, 'recipes/pages/home.html', context={'recipes': page_obj})
+
+    pagination_range = make_pagination_range(
+        paginator.page_range,
+        4,
+        current_page)
+    
+    return render(request, 'recipes/pages/home.html', context={
+        'recipes': page_obj,
+        'pagination_range': pagination_range,
+        }
+    )
 
 def category(request, category_id):
     """ recipes = Recipe.objects.filter(category__id=category_id, is_published=True)
