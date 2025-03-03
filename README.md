@@ -118,7 +118,38 @@ Primeiro lugar ler a documentação, lá já tem um exemplo básico.
 
 Criar uma instância da classe Paginator passando o queryset e a quantidade de páginas
 
+Olhar o código no github, muito complicado
 
+
+---
+## Variaveis de ambiente no Django
+
+pip install python-dotenv
+
+
+Criar o arquivo .env e colocar as variáveis Ex: PER_PAGE=9
+Criar o arquivo .env-exemple com dados fake, que é para os novos desenvolvedores pegarem como exemplo
+
+Como usar:
+from dotenv import load_dotenv
+load_dotenv()
+
+PER_PAGE = os.environ.get('PER_PAGE', 2)
+PER_PAGE = os.getenv('PER_PAGE', 2)
+
+Possíveis locais onde se deve importar o python-dotenv
+manage.py
+settings.py
+asgy.py
+wsgy.py
+
+**Boas práticas:**
+Não commit o arquivo .env: Adicione .env ao seu .gitignore para evitar que informações sensíveis sejam commitadas no repositório.
+
+Use .env.example: Crie um arquivo .env.example com as chaves necessárias, mas sem os valores sensíveis, para que outros desenvolvedores saibam quais variáveis de ambiente precisam ser configuradas.
+
+**Conclusão:**
+O dotenv é uma ferramenta simples e eficaz para gerenciar variáveis de ambiente em projetos Django, especialmente em ambientes de desenvolvimento e produção. Ele ajuda a manter as configurações sensíveis seguras e fora do código-fonte, seguindo boas práticas de segurança.
 
 ---
 ## Trabalhando com forms

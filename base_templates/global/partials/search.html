@@ -1,8 +1,17 @@
 <div class="search-container">
     <div class="container">
-        <form action="" class="search-form">
-            <input type="search" class="search-input" name="search">
+        <form action="{% url "recipes:search" %}" class="search-form">
+            <input type="search" class="search-input" name="search" required>
             <button class="search-button"><i class="fas fa-search"></i></button>
         </form>
     </div>
 </div>
+
+{% comment %} 
+    A título de estudo:
+    O método usado é o GET, que é o padrão para formulários de pesquisa.
+    O formulário é enviado para a URL de pesquisa, que é a mesma URL que a página atual, 
+    mas com um parâmetro de consulta chamado "search" que contém o valor do campo de 
+    pesquisa.
+    Por ser padrão o método get pode ser omitido.
+{% endcomment %}

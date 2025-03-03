@@ -37,7 +37,7 @@ def make_pagination(request, queryset, per_page, qty_pages=4):
     except ValueError:
         current_page = 1
 
-    paginator = Paginator(queryset, 6, per_page)
+    paginator = Paginator(queryset, per_page, qty_pages)
     page_obj = paginator.get_page(current_page)
 
     pagination_range = make_pagination_range(
