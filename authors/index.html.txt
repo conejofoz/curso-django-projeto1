@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio de email com hml</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f4; color: #333;">
+
+    <div>
+        <h4>Olá, tudo bem?</h4>
+        <p>Somos da empresa XYZ Automação, estamos expandindo nossa empresa</p>
+        <p>Gostaria de saber se você tem interesse de participar de uma conversa com a gente.</p>
+        <p>Fico no aguardo do seu retorno</p>
+        <p>Att,</p>
+        <h5 class="escuro">Dpto RH XYZ Automação</h5>
+        <h5 class="escuro">Fone (xx) 98412-1234</h5>
+        <h5 class="escuro">e-mail: rh@xyzautomacao.com</h5>
+    </div>
+
+    <div class="imagem" style="height: 500px;">
+        <img style="height: 500px;" src="https://logospng.org/wp-content/uploads/python.png" alt="logo python">
+        <a target="_blank" href="https://logospng.org/wp-content/uploads/python.png">Logo Python</a>
+    </div>
+
+</body>
+
+</html>

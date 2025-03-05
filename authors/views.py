@@ -1,10 +1,12 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm, LoginForm
+
+from .tasks import my_send_email, send_email_simples, add, send_email_with_attachment
 
 
 def register_view(request):
@@ -79,3 +81,11 @@ def logout_view(request):
     
     logout(request)
     return redirect(reverse('authors:login'))
+
+
+def celery_view(request):
+    # my_send_email.delay()
+    # send_email_simples.delay()
+    send_email_with_attachment.delay()
+    # add.delay()
+    return HttpResponse('Email enviado com sucesso!')

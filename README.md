@@ -276,3 +276,81 @@ def clean(self):
             
         })
 ```
+
+## Celery
+
+pip install celery redis
+pip install django-celery-results
+
+
+Criar o arquivo celery.py ao lado do settings.py
+
+```python
+from __future__ import absolute_import, unicode_literals
+import os
+from celery import Celery
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'projeto.settings')
+
+app = Celery('projeto')
+app.config_from_object('django.conf:settings', namespace='CELERY')
+app.autodiscover_tasks()
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
+
+```
+
+
+Configuração no __init__.py do projeto
+
+```python
+from __future__ import absolute_import, unicode_literals
+from .celery import app as celery_app
+
+__all__ = ('celery_app',)
+```
+
+
+Dentro de cada app criar um arquivo tasks.py
+
+
+Registrar o celery results no installed apps
+
+'django_celery_results',
+
+Fazer migrações
+
+
+
+Configurar no settins.py onde o celery vai guargar os resultados das execuções e demais configurações
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+
+
+
+Inst red linux
+sudo apt-get install redis
+sudo /etc/init.d/regis-server status
+
+
+rodar no linux
+celery -A projeto worker --loglevel=info
+
+
+rodar no windows
+celery -A projeto worker --pool=solo --loglevel=info
+ou
+celery -A proj worker -l info
+
+fazer um teste
+python manage.py shell
+from projeto.celery import debug_task
+debug_task.delay() # já é para criar uma tarefa
