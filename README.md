@@ -279,11 +279,14 @@ def clean(self):
 
 ## Celery
 
+
+- Instalação
+```bash
 pip install celery redis
 pip install django-celery-results
+```
 
-
-Criar o arquivo celery.py ao lado do settings.py
+- Criar o arquivo celery.py ao lado do settings.py
 
 ```python
 from __future__ import absolute_import, unicode_literals
@@ -303,7 +306,7 @@ def debug_task(self):
 ```
 
 
-Configuração no __init__.py do projeto
+- Configuração no __init__.py do projeto
 
 ```python
 from __future__ import absolute_import, unicode_literals
@@ -313,18 +316,16 @@ __all__ = ('celery_app',)
 ```
 
 
-Dentro de cada app criar um arquivo tasks.py
-
-
-Registrar o celery results no installed apps
-
+- Dentro de cada app criar um arquivo tasks.py
+- Registrar o celery results no installed apps
 'django_celery_results',
-
-Fazer migrações
-
+- Fazer migrações
 
 
-Configurar no settins.py onde o celery vai guargar os resultados das execuções e demais configurações
+
+- Configurar no settins.py onde o celery vai guargar os resultados das execuções e demais configurações
+
+```python
 CELERY_RESULT_BACKEND = 'django-db'
 
 CELERY_RESULT_BACKEND = 'django-db'
@@ -332,25 +333,62 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+```
 
 
 
-
-Inst red linux
+**Instalação do redis no linux**
 sudo apt-get install redis
 sudo /etc/init.d/regis-server status
 
+Não é o meu caso, eu usei no docker.
 
-rodar no linux
+
+**rodar no linux**
 celery -A projeto worker --loglevel=info
-
-
-rodar no windows
-celery -A projeto worker --pool=solo --loglevel=info
 ou
-celery -A proj worker -l info
+celery -A projeto worker -l info
 
-fazer um teste
+
+**rodar no windows**
+celery -A projeto worker --pool=solo --loglevel=info
+
+**fazer um teste**
 python manage.py shell
 from projeto.celery import debug_task
 debug_task.delay() # já é para criar uma tarefa
+
+
+
+## Agendamento de tarefas com Celery Beat
+
+São baseadas por padrão no timezone de Londres, mas é possível modificar.
+
+- Instalar o celery beat
+- Adicionar no INSTALLED_APS
+- Migrar as tabelas
+- Configurar as tarefas no próprio django admin, ou manualmente via arquivos python.
+
+
+```bash
+pip install django-celery-beat
+```
+
+
+Adicionar no INSTALLED_APPS
+'django_celery_beat',
+
+
+**Rodar o celery beat**
+
+Obs: No windows tem que rodar em um terminal diferente do que já está rodando o celery.
+Já no linux pode rodar o mesmo comando que roda o celery com a opção -B
+
+
+- Linux:
+
+celery -A projeto worker --loglevel=info -B
+
+- Windows:
+
+celery -A projeto beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

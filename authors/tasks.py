@@ -38,6 +38,7 @@ def my_send_email():
     to_emails = [
         'conejofoz@gmail.com',
         'silviocoelho.udc@gmail.com',
+        'katiaespinola.xx@gmai.com',
         'katiaespinola_xx_@gmai.com',
     ]
 
