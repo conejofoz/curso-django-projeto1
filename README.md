@@ -740,7 +740,28 @@ $post = Post::where('title', 'LIKE', '%post%')->get();
 
 
 
+### Atualizando registros
 
+```php
+/* Atualizar */
+$post = Post::find(1);
+$post->titulo = 'Meu novo titulo';
+$post->save();
+```
+
+**Outra maneira de atualizar usando o método fill**
+
+Uma outra maneira de atualizar passando um array com todos os campos para atualizar para o método fill()
+```php
+$input = [
+    'title'=> 'Meu outro novo título',
+    'body'=> 'Corpo do meu outro título'
+];
+
+$post = Post::find(1);
+$post->fill($input);
+$post->save();
+```
 
 
 
